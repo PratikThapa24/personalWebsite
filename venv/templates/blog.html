@@ -1,0 +1,18 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Prediction</title>
+
+    </head>
+    <body>
+        
+        {% for post in posts: %}
+            {% if post.get('id') == 1: %}
+            <h1> {{ post.get('title') }} </h1>
+            <h2> {{ post.get('subtitle') }}</h2>
+
+            {% endif %}
+            {% endfor %}
+        
+    </body>
+</html>
