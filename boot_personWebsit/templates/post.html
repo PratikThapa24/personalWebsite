@@ -1,44 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Clean Blog - Start Bootstrap Theme</title>
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-    <!-- Font Awesome icons (free version)-->
-    <script
-      src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
-      crossorigin="anonymous"
-    ></script>
-    <!-- Google fonts-->
-    <link
-      href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link
-    
-      href="{{ url_for('static', filename='/css/styles.css') }}"
-      rel="stylesheet"
-    />
-  </head>
   <body>
+    {% include "header.html" %}
     {% include 'navigation.html' %}
     <!-- Page Header-->
     <header
       class="masthead"
-      style="background-image: url('static/assets/img/post-bg.jpg')"
+      style="background-image: url(' {{ read.img_url }}')"
     >
     <!-- Start of the for loop -->
       <div class="container position-relative px-4 px-lg-5">
@@ -51,8 +17,8 @@
               </h2>
               <span class="meta">
                 Posted by
-                <a href="#!">Pratik Thapa</a>
-                on August 24, 2023
+                <a href="#!">{{ read.author }}</a>
+                on {{ read.date }}
               </span>
             </div>
           </div>
@@ -64,17 +30,16 @@
       <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
           <div class="col-md-10 col-lg-8 col-xl-7">
-            <p>
-              {{ read.body }}
-            </p>
-            <p>
-              Placeholder text by
-              <a href="http://spaceipsum.com/">Space Ipsum</a>
-              &middot; Images by
-              <a href="https://www.flickr.com/photos/nasacommons/"
-                >NASA on The Commons</a
+            {{ read.body|safe }}
+    
+            <div class="d-flex justify-content-end mb-4">
+              <!-- TODO: Editing posts-->
+              <a
+                class="btn btn-primary float-right"
+                href="{{ url_for( 'edit_post', post_id = read.id ) }}"
+                >Edit Post</a
               >
-            </p>
+            </div>
           </div>
         </div>
       </div>

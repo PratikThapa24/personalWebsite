@@ -10,7 +10,7 @@
       <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
           <div class="site-heading">
-            <h1>Welcome</h1>
+            <h1></h1>
             <span class="subheading">"If you can make one heap of all your winnings
               And risk it on one turn of pitch-and-toss,
               And lose, and start again at your beginnings
@@ -37,7 +37,7 @@
         <p class="post-meta">
           Posted by
           <a href="{{ url_for('home') }}">Pratik Thapa</a>
-          on September 18, 2023
+          on {{ post.date }} <a href="{{url_for( 'delete_post', post_id = post.id )}}">✘</a>
         </p>
       </div>
       {% endfor %}
