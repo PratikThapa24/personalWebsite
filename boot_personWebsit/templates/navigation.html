@@ -22,6 +22,31 @@
               href=" {{ url_for('home') }}"
               >Home</a
             >
+            {% if not logged_in %}
+            <li class="nav-item">
+              <a
+                class="nav-link px-lg-3 py-3 py-lg-4"
+                href=" {{ url_for('login') }}"
+                >Login</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link px-lg-3 py-3 py-lg-4"
+                href=" {{ url_for('register_user') }}"
+                >Register</a
+              >
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a
+                class="nav-link px-lg-3 py-3 py-lg-4"
+                href=" {{ url_for('logout') }}"
+                >Logout</a
+              >
+            </li>
+            {% endif %}
+            
           </li>
           <li class="nav-item">
             <a
