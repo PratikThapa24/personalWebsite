@@ -1,28 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway" rel="stylesheet">
-    <link rel="stylesheet" href="../static/css/styles.css">
-</head>
+{% include 'header.html' %}
 <body>
-<div class="wrapper">
-    <div class="top">
-        <div class="title"><h1>My Blog</h1></div>
-    </div>
-    <div class="content">
-        {% for data in json: %}
-        <div class="card">
-            <h2> {{ data.title }}</h2>
-            <p class="text">{{ data.subtitle }} </p>
-            <a href=" {{ url_for('read_body', index = data.id) }} ">Read</a>
+  {% include 'navigation.html' %}
+  <!-- Page Header-->
+  <header
+    class="masthead"
+    style="background-image: url('static/assets/img/wallpaper_background.jpg'); background-position: center 20px;"
+  >
+    <div class="container position-relative px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <div class="site-heading">
+            <h1></h1>
+            <span class="subheading">"If you can make one heap of all your winnings
+              And risk it on one turn of pitch-and-toss,
+              And lose, and start again at your beginnings
+              And never breathe a word about your loss"</span>
+          </div>
         </div>
-        {% endfor %}
+      </div>
     </div>
+  </header>
+<!-- Main Content-->
+<div class="container px-4 px-lg-5">
+  <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+      <!-- Post preview-->
+        <h2>Projects</h2>
+      <!-- Start of the for loop -->
+      {% for post in json %}
+      <div class="post-preview">
+        <a href="{{ url_for('read_body', index = post.id) }}"
+          ><h2 class="post-title">
+            {{ post.title }}
+          </h2>
+          <h3 class="post-subtitle"> {{ post.subtitle }} </h3>
+          </a>
+        <p class="post-meta">
+          Posted by
+          <a href="{{ url_for('home') }}">{{ post.author.name }}</a>
+          on {{ post.date }} 
+          {% if current_user.id == 1 %}
+          <a href="{{url_for( 'delete_post', post_id = post.id )}}">✘</a>
+          {% endif %}
+        </p>
+      </div>
+      {% endfor %}
+      
+      <!-- Divider-->
+      <hr class="my-4" />
+      <!-- Pager-->
+      {% if current_user.id == 1 %}
+      <div class="d-flex justify-content-end mb-4">
+        <a class="btn btn-primary text-uppercase" href="{{ url_for('make_new_post') }}">Create New Post</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
 </div>
+{% include 'footer.html' %}
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="{{ url_for('static', filename='/js/scripts.js') }}"></script>
 </body>
-<footer>
-    <p>Made with ♥️ in London.</p>
-</footer>
 </html>
