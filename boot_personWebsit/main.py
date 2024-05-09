@@ -25,7 +25,7 @@ current_date = datetime.now()
 login_manager = LoginManager()
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SECRET_KEY'] = os.environ.get("APP_SECRET_KEY")
 Bootstrap5(app)
 ckeditor = CKEditor(app)
 login_manager.init_app(app)
@@ -34,7 +34,7 @@ login_manager.init_app(app)
 class Base(DeclarativeBase):
     pass
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("SQL")
 db = SQLAlchemy(model_class = Base)
 db.init_app(app)
 
@@ -98,7 +98,6 @@ class Comment(db.Model):
     parent_post = relationship("BlogPost", back_populates = "comments")
     
 
-
 with app.app_context():
     db.create_all()
 
@@ -106,12 +105,8 @@ with app.app_context():
 def load_user(user_id):
     return db.get_or_404(User, user_id)
 
-url_blog_post = f"https://api.npoint.io/c790b4d5cab58020d391"
-response = requests.get(url_blog_post)
-json_response = response.json()
-email = "prajwaljungthapa@gmail.com"
+email = os.environ.get("EMAIL")
 password = os.environ.get("PASS")
-
 
 
 def admin_only(f):
@@ -236,18 +231,16 @@ def edit_post(post_id):
         title = post.title,
         subtitle = post.subtitle,
         url = post.img_url, 
-        name = post.author, 
         body = post.body
     )
     if edit_form.validate_on_submit():
         post.title = edit_form.title.data
         post.subtitle = edit_form.subtitle.data
         post.img_url = edit_form.url.data
-        post.author = edit_form.name.data
         post.body = edit_form.body.data
         db.session.commit()
         return redirect(url_for("read_body", index = post.id))
-    return render_template("make-post.htmlString", edit = True, form = edit_form, current_user = current_user)
+    return render_template("make-post.html", edit = True, form = edit_form, current_user = current_user)
 
 
 
@@ -331,4 +324,4 @@ def delete_comment(post_id, comment_id):
     
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
